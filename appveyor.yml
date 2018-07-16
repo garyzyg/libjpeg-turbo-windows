@@ -1,0 +1,33 @@
+version: '{branch}-{build}'
+skip_non_tags: false
+platform:
+- x86
+- x64
+init:
+- cmd: IF %APPVEYOR_REPO_TAG%==true appveyor UpdateBuild -Version %APPVEYOR_REPO_TAG_NAME%-%APPVEYOR_BUILD_NUMBER%
+before_build:
+- cmd: >-
+    git clone https://github.com/libjpeg-turbo/libjpeg-turbo.git
+
+    CD libjpeg-turbo
+
+    appveyor DownloadFile https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/win32/nasm-2.13.03-win32.zip
+
+    7z e *.zip */nasm.exe
+
+    IF %APPVEYOR_REPO_TAG%==true git checkout %APPVEYOR_REPO_TAG_NAME%
+build_script:
+- cmd: ..\build.bat
+after_build:
+- cmd: 7z a ..\libjpeg-turbo-%Platform%.zip *.exe -x!nasm.exe
+artifacts:
+- path: '*.zip'
+  name: libjpeg-turbo
+deploy:
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  auth_token:
+    secure: svGa+b07j/y7mxkfuLA3JBWBbQt1lUnzDByMu9rb5b0OfJQOvdzdfDSRdpvGWVya
+  artifact: /.*\.zip/
+  on:
+    APPVEYOR_REPO_TAG: true

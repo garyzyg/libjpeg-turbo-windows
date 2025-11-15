@@ -28,4 +28,4 @@ FOR /F "DELIMS=" %%I IN ('WHERE cmake.exe') DO FOR /F "DELIMS=" %%J IN ('DIR /B 
 "\${_RTC1}		%M64%"
 ) DO FOR /F "TOKENS=1,* DELIMS=	" %%L IN (%%K) DO %SED% "s@%%L@%%M@" -i "%%J"
 
-cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="%M64%" -DWITH_CRT_DLL=1 -DCMAKE_EXE_LINKER_FLAGS=/MANIFEST:NO %CD%& FOR %%I IN (*.1) DO FOR /F "TOKENS=2 DELIMS=( " %%J IN ('FIND "add_executable" CMakeLists.txt ^| FIND "%%~nI"') DO nmake %%J VERBOSE=1
+cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="%M64%" -DWITH_CRT_DLL=1 -DCMAKE_EXE_LINKER_FLAGS=/MANIFEST:NO %CD%& FOR %%I IN (doc\*.1) DO FOR /F "TOKENS=2 DELIMS=( " %%J IN ('FIND "add_executable" CMakeLists.txt ^| FIND "%%~nI"') DO nmake %%J VERBOSE=1

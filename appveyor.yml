@@ -12,7 +12,7 @@ before_build:
 
     CD libjpeg-turbo
 
-    appveyor DownloadFile https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/win32/nasm-2.13.03-win32.zip
+    appveyor DownloadFile https://www.nasm.us/pub/nasm/releasebuilds/3.01/win32/nasm-3.01-win32.zip
 
     7z e *.zip */nasm.exe
 
